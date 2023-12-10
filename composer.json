@@ -1,0 +1,12 @@
+{
+    "name": "phalcon/cadastro",
+    "description": "aplicacao para testar conhecimentos em phalconphp",
+    "autoload": {
+        "psr-4": {
+            "Phalcon\\Cadastro\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phalcon/devtools": "^4.0"
+    }
+}
