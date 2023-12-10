@@ -1,7 +1,47 @@
-<div class="page-header">
-    <h1>Congratulations!</h1>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+</head>
+<body class="bg-dark">
+<h1 class="text-light">Clientes Cadastrados</h1>
+<hr class="bg-light">
+<?php echo $this->tag->linkTo(["cliente", "Cadastrar Cliente", 'class' => 'btn btn-success']);?>
 
-<p>You're now flying with Phalcon. Great things are about to happen!</p>
+    
+       
+<table class="table table-bordered table-hover mt-3">
 
-<p>This page is located at <code>views/index/index.phtml</code></p>
+        <thead class="thead-light">
+            <tr>
+            
+            <th>#ID#</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Data Nascimento</th>
+            <th>Ações</th>
+            </tr>
+        </thead>
+
+    <tbody class="bg-light">
+    <?php foreach($clientes as $cliente) {?>
+        <tr>
+            <td><?=$cliente->id;?></td>
+            <td><?=$cliente->nome;?></td>
+            <td><?=$cliente->email;?></td>
+            <td><?=$cliente->data_nascimento;?></td>
+            <td>
+                <?php echo $this->tag->linkTo(["cliente/editar/$cliente->id", "Editar", 'class' => 'btn btn-success']);?>
+                <?php echo $this->tag->linkTo(["cliente/visualizar/$cliente->id", "Visualizar", 'class' => 'btn btn-primary']);?>
+                <?php echo $this->tag->linkTo(["cliente/deletar/$cliente->id", "Deletar", 'class' => 'btn btn-danger']);?></td>
+        </tr>
+
+    <?php } ?>
+    </tbody>
+
+</table>
+
+</body>
+</html>

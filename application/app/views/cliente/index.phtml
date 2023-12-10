@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="bg-dark text-light">
+<h2>Cadastro de Produto</h2>
+
+<?php
+    // Abre o formulário usando o Phalcon
+    echo $this->tag->form(["inserir/cadastrar", "method" => "POST"]);
+?>
+
+    <div class="form-group">
+        <label>Nome</label>
+        <?php
+            // Cria um campo de texto para o nome usando o Phalcon
+            echo $this->tag->textField(
+                [
+                    "nome",
+                    "class" => "form-control",
+                    "placeholder" => "Digite o nome do Produto",
+                    "required" => true,
+                ]
+            );
+        ?>
+    </div>
+
+    <div class="form-group">
+        <label>Descrição</label>
+        <?php
+            // Cria um campo de texto para o e-mail usando o Phalcon
+            echo $this->tag->textField(
+                [
+                    "descricao",
+                    "class" => "form-control",
+                    "placeholder" => "Digite uma descrição do produto",
+                    "required" => true,
+                ]
+            );
+        ?>
+    </div>
+
+    <div class="form-group">
+        <label>Preço</label>
+        <?php
+            // Cria um campo de texto para o e-mail usando o Phalcon
+            echo $this->tag->textField(
+                [
+                    "preco",
+                    "class" => "form-control",
+                    "placeholder" => "Digite o valor do produto",
+                    "type" => "number",
+                    "required" => true,
+                ]
+            );
+        ?>
+    </div>
+
+
+    <div class="form-group">
+        <?php
+            // Cria um botão de envio usando o Phalcon e adiciona a classe
+            //primeiro parametro é controller e segundo / metodo
+            echo $this->tag->submitButton(["Cadastrar", 'class' => 'btn btn-success m-2']);
+            echo $this->tag->linkTo(["/", "Cancelar", 'class' => 'btn btn-danger m-2']);
+        ?>
+    </div>
+
+<?php
+    // Fecha o formulário
+    echo $this->tag->endForm();
+?>
+
+
+</body>
+</html>
