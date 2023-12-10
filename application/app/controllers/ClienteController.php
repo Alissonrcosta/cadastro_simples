@@ -42,17 +42,61 @@ class ClienteController extends ControllerBase
     }
     }
     
-}
-  
-        //echo "<pre>"; print_r($dataNascimento); echo "</pre>"; exit;
-    
-    
-    public function EditarAction() {
-
     }
 
-    public function AtualizarAction() {
+    public function EditarAction($id) {
+        $dados = Cliente::find("id = '$id'");
+            if($dados->count() > 0) {
+                $this->view->cliente = $dados;
+            }else{
+                $this->response->redirect('/');
+            }
+    }
 
+    public function AtualizarAction($id) {
+        //Procura pelo id do cliente
+        $cliente = Cliente::findFirst("id = '$id'");
+        
+        //Verifica se o cliente foi encontrado se sim, obtém os dados do formulário se não, redireciona para '/';
+        $cliente ? $dados = $this->request->getPost() : $this->response->redirect('/');
+
+        //Depois de Receber os dados, crio uma variavel para formatar a data de d/m/Y para DateTime
+        $dataNascimento = DateTime::createFromFormat('d/m/Y', $dados['data_nascimento']);
+            
+            
+            //verificar se o email foi alterado
+            if ($dados['email'] !== $cliente->email) {
+                
+                //se o email foi alterado, verificar se já existe outro cliente com o novo email
+                $consulta = Cliente::findFirst("email = '{$dados['email']}'");
+                
+                if ($consulta) {
+                    // Usuário já cadastrado, trata o erro
+                    echo "Usuário já cadastrado";
+                } else {
+                    
+                    // Atualiza os valores do cliente com base nos dados fornecidos
+                    $cliente->nome = $dados['nome'];
+                    $cliente->email = $dados['email'];
+                    $cliente->data_nascimento = $dataNascimento->format('Y-m-d');
+        
+                    // Salva as alterações no banco de dados
+                    $cliente->save();
+        
+                    // Redireciona para a página inicial
+                    $this->response->redirect('/');
+                }
+            } else {
+                // O email não foi alterado, apenas atualiza os outros campos
+                $cliente->nome = $dados['nome'];
+                $cliente->data_nascimento = $dataNascimento->format('Y-m-d');
+        
+                // Salva as alterações no banco de dados
+                $cliente->save();
+        
+                // Redireciona para a página inicial
+                $this->response->redirect('/');
+            }
     }
 
     public function DeletarAction($id) {
