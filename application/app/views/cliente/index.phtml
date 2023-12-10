@@ -1,80 +1,102 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastrar Cliente</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+
 <body class="bg-dark text-light">
-<h2>Cadastro de Produto</h2>
+    <div class="container d-flex align-items-center justify-content-center">
+        <div class="w-50 p-3 mx-auto">
+            <h2>Cadastrar Cliente</h2>
 
-<?php
-    // Abre o formulário usando o Phalcon
-    echo $this->tag->form(["inserir/cadastrar", "method" => "POST"]);
-?>
+            <?php
+                // Abre o formulário usando o Phalcon
+                 //primeiro parametro é controller e segundo / metodo
+                echo $this->tag->form(["cliente/cadastrar", "method" => "POST"]);
+            ?>
 
-    <div class="form-group">
-        <label>Nome</label>
-        <?php
-            // Cria um campo de texto para o nome usando o Phalcon
-            echo $this->tag->textField(
-                [
-                    "nome",
-                    "class" => "form-control",
-                    "placeholder" => "Digite o nome do Produto",
-                    "required" => true,
-                ]
-            );
-        ?>
+            <div class="form-group">
+                <label>Nome</label>
+                <?php
+                    // Cria um campo de texto para o nome usando o Phalcon
+                    echo $this->tag->textField(
+                        [
+                            "nome",
+                            "class" => "form-control",
+                            "placeholder" => "Digite o nome do cliente",
+                            "required" => true,
+                        ]
+                    );
+                ?>
+            </div>
+
+            <div class="form-group">
+                <label>E-mail</label>
+                <?php
+                    // Cria um campo de texto para o e-mail usando o Phalcon
+                    echo $this->tag->textField(
+                        [
+                            "email",
+                            "class" => "form-control",
+                            "placeholder" => "Digite e-mail do cliente",
+                            "required" => true,
+                        ]
+                    );
+                ?>
+            </div>
+
+            <div class="form-group">
+                <label>Data Nascimento</label>
+                <?php
+                    echo $this->tag->textField(
+                        [
+                            "data_nascimento",
+                            "id" => "data_nascimento",
+                            "class" => "form-control",
+                            "placeholder" => "Digite data de nascimento do cliente",
+                            "type" => "number",
+                            "required" => true,
+                        ]
+                    );
+                ?>
+            </div>
+
+            <div class="form-group">
+                <?php
+                    //submitButton -> cria um botão de envio de formulário com Phalcon
+                    echo $this->tag->submitButton(["Cadastrar", 'class' => 'btn btn-success m-2']);
+                    echo $this->tag->linkTo(["/", "Cancelar", 'class' => 'btn btn-danger m-2']);
+                ?>
+            </div>
+
+            <?php
+                // Fecha o formulário
+                echo $this->tag->endForm();
+            ?>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Descrição</label>
-        <?php
-            // Cria um campo de texto para o e-mail usando o Phalcon
-            echo $this->tag->textField(
-                [
-                    "descricao",
-                    "class" => "form-control",
-                    "placeholder" => "Digite uma descrição do produto",
-                    "required" => true,
-                ]
-            );
-        ?>
-    </div>
-
-    <div class="form-group">
-        <label>Preço</label>
-        <?php
-            // Cria um campo de texto para o e-mail usando o Phalcon
-            echo $this->tag->textField(
-                [
-                    "preco",
-                    "class" => "form-control",
-                    "placeholder" => "Digite o valor do produto",
-                    "type" => "number",
-                    "required" => true,
-                ]
-            );
-        ?>
-    </div>
-
-
-    <div class="form-group">
-        <?php
-            // Cria um botão de envio usando o Phalcon e adiciona a classe
-            //primeiro parametro é controller e segundo / metodo
-            echo $this->tag->submitButton(["Cadastrar", 'class' => 'btn btn-success m-2']);
-            echo $this->tag->linkTo(["/", "Cancelar", 'class' => 'btn btn-danger m-2']);
-        ?>
-    </div>
-
-<?php
-    // Fecha o formulário
-    echo $this->tag->endForm();
-?>
-
-
+    <!-- Adicione o link para o JavaScript do Bootstrap e o jQuery (opcional, mas necessário para alguns recursos do Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
+<script src="https://unpkg.com/imask"></script>
+
+<script>
+
+    IMask(
+        document.getElementById('data_nascimento'),
+       {
+        mask: '00/00/0000'
+       }
+    )
+
+</script>
+
 </html>
