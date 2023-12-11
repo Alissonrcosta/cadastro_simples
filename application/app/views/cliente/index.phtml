@@ -66,6 +66,40 @@
             </div>
 
             <div class="form-group">
+                <label>Telefone Principal</label>
+                <?php
+                    echo $this->tag->textField(
+                        [
+                            "numero_1",
+                            "id" => "numero_1",
+                            "class" => "form-control",
+                            "placeholder" => "Digite Telefone Principal",
+                            "type" => "number",
+                            "required" => true,
+                        ]
+                    );
+                ?>
+            </div>
+
+            <div class="form-group">
+                <label>Telefone Secundário</label>
+                <?php
+                    echo $this->tag->textField(
+                        [
+                            "numero_2",
+                            "id" => "numero_2",
+                            "class" => "form-control",
+                            "placeholder" => "Digite Telefone Secundário",
+                            "type" => "number",
+                            "required" => true,
+                        ]
+                    );
+                ?>
+            </div>
+
+        
+
+            <div class="form-group">
                 <?php
                     //submitButton -> cria um botão de envio de formulário com Phalcon
                     echo $this->tag->submitButton(["Cadastrar", 'class' => 'btn btn-success m-2']);

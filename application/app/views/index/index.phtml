@@ -21,21 +21,31 @@
             <th>Nome</th>
             <th>E-mail</th>
             <th>Data Nascimento</th>
+            <th>Telefone Principal</th>
             <th>Ações</th>
             </tr>
         </thead>
 
     <tbody class="bg-light text-center">
-    <?php foreach($clientes as $cliente) {?>
+    <?php foreach($clientes as $cliente) { 
+    
+    ?>
         <tr>
             <td><?=$cliente->id;?></td>
             <td><?=$cliente->nome;?></td>
             <td><?=$cliente->email;?></td>
             <td><?= date('d/m/Y', strtotime($cliente->data_nascimento)); ?></td>
+            <td><select>
+                <?php foreach ($cliente->getTelefones() as $item) { ?>
+                 <option value="<?= $item->id ?>"><?= $item->numero ?></option>
+                <?php } ?>
+        </select></td>
+            
             <td>
                 <?php echo $this->tag->linkTo(["cliente/editar/$cliente->id", "Editar", 'class' => 'btn btn-success']);?>
                 <?php echo $this->tag->linkTo(["cliente/visualizar/$cliente->id", "Visualizar", 'class' => 'btn btn-primary']);?>
-                <?php echo $this->tag->linkTo(["cliente/deletar/$cliente->id", "Deletar", 'class' => 'btn btn-danger']);?></td>
+                <?php echo $this->tag->linkTo(["cliente/deletar/$cliente->id", "Deletar", 'class' => 'btn btn-danger']);?>
+            </td>
         </tr>
 
     <?php } ?>
