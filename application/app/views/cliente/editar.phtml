@@ -62,37 +62,29 @@
         ?>
     </div>
 
-    <div class="form-group">
-                <label>Telefone Principal</label>
-                <?php
-                    echo $this->tag->textField(
-                        [
-                            "numero_1",
-                            "id" => "numero_1",
-                            "class" => "form-control",
-                            "value" => $clienteItem->getTelefones()[0]->numero,
-                            "type" => "number",
-                            "required" => true,
-                        ]
-                    );
-                ?>
-            </div>
+    <!-- Seção do formulário para telefones -->
+<div class="form-group" id="telefones-container">
+    <label>Telefones</label>
 
-            <div class="form-group">
-                <label>Telefone Secundário</label>
-                <?php
-                    echo $this->tag->textField(
-                        [
-                            "numero_2",
-                            "id" => "numero_2",
-                            "class" => "form-control",
-                            "value" => $clienteItem->getTelefones()[1]->numero,
-                            "type" => "number",
-                            "required" => true,
-                        ]
-                    );
-                ?>
-            </div>
+    <?php foreach ($clienteItem->getTelefones() as $indice => $telefone) { ?>
+        <div class="telefone-item">
+            <?php
+                echo $this->tag->textField(
+                    [
+                        "telefones[$indice][numero]",
+                        "class" => "form-control mb-3",
+                        "value" => $telefone->numero,
+                        "type" => "number",
+                        "required" => true,
+                    ]
+                );
+            ?>
+        </div>
+    <?php } ?>
+</div>
+
+
+        
 
     <div class="form-group">
         <?php
@@ -111,6 +103,31 @@
 </body>
 
 <script src="https://unpkg.com/imask"></script>
+
+<script>
+    $(document).ready(function () {
+        // Contador para gerar IDs únicos
+        let contador = <?= count($clienteItem->getTelefones()) + 1 ?>; // Começa com um número maior que a quantidade de telefones existentes
+
+        // Manipular ação de clique no botão "Adicionar Outro Telefone"
+        $("#adicionar-telefone").click(function () {
+            // Clonar o campo de telefone
+            let novoCampo = $("#telefones-container").clone();
+
+            // Atualizar IDs e nome do campo clonado
+            novoCampo.find("input").attr("id", "numero_" + contador).attr("name", "numero[]");
+
+            // Limpar o valor do campo clonado
+            novoCampo.find("input").val('');
+
+            // Incrementar o contador para futuros campos
+            contador++;
+
+            // Adicionar o novo campo ao contêiner
+            $("#telefones-container").after(novoCampo);
+        });
+    });
+</script>
 
 <script>
 

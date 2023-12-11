@@ -8,10 +8,12 @@ class Telefone extends Model {
     private $cliente_id;
     private $tipo;
 
+    //Definir algumas configurações iniciais
     public function initialize()
     {
 
         $this->setSource('telefones');
+        //Estabelece uma relação de muitos :N entre este modelo e outro
         $this->hasMany(
             'id', // A chave primária do modelo Cliente
             'Telefone', // O modelo relacionado (presumivelmente o modelo de telefone)
@@ -23,6 +25,7 @@ class Telefone extends Model {
         );
     }
 
+    //Encapsulamento//
     public function getId() {
         return $this->id;
     }

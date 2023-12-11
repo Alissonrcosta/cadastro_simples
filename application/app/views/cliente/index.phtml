@@ -65,37 +65,24 @@
                 ?>
             </div>
 
-            <div class="form-group">
-                <label>Telefone Principal</label>
-                <?php
-                    echo $this->tag->textField(
-                        [
-                            "numero_1",
-                            "id" => "numero_1",
-                            "class" => "form-control",
-                            "placeholder" => "Digite Telefone Principal",
-                            "type" => "number",
-                            "required" => true,
-                        ]
-                    );
-                ?>
-            </div>
+            <div class="form-group" id="telefones-container">
+    <label>Telefone(s)</label>
+    <?php
+        echo $this->tag->textField(
+            [
+                "numero[]",
+                "class" => "form-control",
+                "placeholder" => "Digite Telefone Principal",
+                "type" => "number",
+                "required" => true,
+            ]
+        );
+    ?>
+</div>
+<button class="btn btn-primary m-2" type="button" id="adicionar-telefone">Adicionar Outro Telefone</button>
 
-            <div class="form-group">
-                <label>Telefone Secundário</label>
-                <?php
-                    echo $this->tag->textField(
-                        [
-                            "numero_2",
-                            "id" => "numero_2",
-                            "class" => "form-control",
-                            "placeholder" => "Digite Telefone Secundário",
-                            "type" => "number",
-                            "required" => true,
-                        ]
-                    );
-                ?>
-            </div>
+
+           
 
         
 
@@ -121,6 +108,35 @@
 </body>
 
 <script src="https://unpkg.com/imask"></script>
+
+<!-- Adicione jQuery à sua página se ainda não o fez -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Contador para gerar IDs únicos
+        let contador = 2; // Começa com 2 porque já existe o campo "numero_1"
+
+        // Manipular ação de clique no botão "Adicionar Outro Telefone"
+        $("#adicionar-telefone").click(function () {
+            // Clonar o campo de telefone
+            let novoCampo = $("#telefones-container").clone();
+
+            // Atualizar IDs e nome do campo clonado
+            novoCampo.find("input").attr("id", "numero_" + contador).attr("name", "numero[]");
+
+            // Limpar o valor do campo clonado
+            novoCampo.find("input").val('');
+
+            // Incrementar o contador para futuros campos
+            contador++;
+
+            // Adicionar o novo campo ao contêiner
+            $("#telefones-container").after(novoCampo);
+        });
+    });
+</script>
+
 
 <script>
 

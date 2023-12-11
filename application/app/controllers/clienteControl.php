@@ -13,47 +13,56 @@ class ClienteController extends ControllerBase
     }
 
     public function CadastrarAction()
-{
-    $dados = $this->request->getPost();
-    $email = $dados['email'];
-    $numeros = $dados['numero']; // Agora 'numero' é um array
+    {
+        $dados = $this->request->getPost();
+        $email = $dados['email'];
+        $numero_1 = $dados['numero_1'];
+        $numero_2 = $dados['numero_2'];
 
-    // Verificar se o usuário já está cadastrado
-    $consulta = Cliente::find("email = '$email'");
-    if (count($consulta) > 0) {
-        echo "Usuário já cadastrado";
-    } else {
-        $dataNascimento = DateTime::createFromFormat('d/m/Y', $dados['data_nascimento']);
-        if (!$dataNascimento || $dataNascimento->format('d/m/Y') !== $dados['data_nascimento']) {
-            echo 'Data de nascimento inválida.';
-        }
-
-        // Validar se a data não está no "futuro"
-        $dataAtual = new DateTime();
-        if ($dataNascimento > $dataAtual) {
-            echo 'Data de nascimento inválida.';
+        //verificando se usuário já está cadastrado
+        $consulta = Cliente::find("email = '$email'");
+        if (count($consulta) > 0) {
+            echo "Usuário já cadastrado";
         } else {
-            // Continuar para salvar no banco de dados
-            $cliente = new Cliente();
-            $cliente->setNome($dados['nome']);
-            $cliente->setEmail($dados['email']);
-            $cliente->setDataNascimento($dataNascimento->format('Y-m-d'));
-            $cliente->save();
-
-            // Salvar os telefones associados ao cliente
-            foreach ($numeros as $numero) {
-                $telefone = new Telefone();
-                $telefone->setClienteId($cliente->getId());
-                $telefone->setNumero($numero);
-                $telefone->setTipo("OUTRO");
-                $telefone->save();
+            $dataNascimento = DateTime::createFromFormat('d/m/Y', $dados['data_nascimento']);
+            if (!$dataNascimento || $dataNascimento->format('d/m/Y') !== $dados['data_nascimento']) {
+                echo 'Data de nascimento inválida.';
             }
 
-            $this->response->redirect('/');
+            //validação se data não está no "futuro"
+            $dataAtual = new DateTime();
+
+            if ($dataNascimento > $dataAtual) {
+                echo 'Data de nascimento inválida.';
+            } else {
+                //Continuar para salvar no bando de dados
+                $cliente = new Cliente();
+                $cliente->setNome($dados['nome']);
+                $cliente->setEmail($dados['email']);
+                $cliente->setDataNascimento($dataNascimento->format('Y-m-d'));
+
+                $cliente->save();
+
+                $telefone_1 = new Telefone();
+                $telefone_1->setClienteId($cliente->getId());
+                $telefone_1->setNumero($numero_1);
+                $telefone_1->setTipo("PRINCIPAL");
+                $telefone_1->save();
+
+                if ($numero_2 != "") {
+                    $telefone_2 = new Telefone();
+                    $telefone_2->setClienteId($cliente->getId());
+                    $telefone_2->setNumero($numero_2);
+                    $telefone_2->setTipo("SECUNDARIO");
+                    $telefone_2->save();
+                }else{
+                    $telefone_2 = "";
+                }
+
+                $this->response->redirect('/');
+            }
         }
     }
-}
-
 
     public function EditarAction($id)
     {
@@ -67,24 +76,18 @@ class ClienteController extends ControllerBase
 
     public function AtualizarAction($id)
     {
-        //Procura pelo id do cliente
+        
         $cliente = Cliente::findFirst("id = '$id'");
-        //$telefone = Telefone::find("cliente_id = '$id'");
-
-
-
-
         //Verifica se o cliente foi encontrado se sim, obtém os dados do formulário se não, redireciona para '/';
         $cliente ? $dados = $this->request->getPost() : $this->response->redirect('/');
 
-        //Depois de Receber os dados, crio uma variavel para formatar a data de d/m/Y para DateTime
         $dataNascimento = DateTime::createFromFormat('d/m/Y', $dados['data_nascimento']);
 
 
         //verificar se o email foi alterado
         if ($dados['email'] !== $cliente->email) {
 
-            //se o email foi alterado, verificar se já existe outro cliente com o novo email
+            //se o email foi alterado, verificar se já existe outro cliente com o novo email, procurando pelo primeiro retorno que vem de getpost
             $consulta = Cliente::findFirst("email = '{$dados['email']}'");
 
             if ($consulta) {
@@ -92,24 +95,19 @@ class ClienteController extends ControllerBase
                 echo "Usuário já cadastrado";
             } else {
 
-                // Atualiza os valores do cliente com base nos dados fornecidos
-
-
+                //Atualizando os valores com os dados fornecidos
                 $cliente->setNome($dados['nome']);
                 $cliente->setEmail($dados['email']);
                 $cliente->setDataNascimento($dataNascimento->format('Y-m-d'));
                 $cliente->telefones = $dados['telefones'];
-
-                // Salva as alterações no banco de dados
                 $cliente->save();
 
-                // Redireciona para a página inicial
                 $this->response->redirect('/');
             }
         } else {
-            // O email não foi alterado, apenas atualiza os outros campos
-           // Telefone::find("cliente_id = '$id'")->delete();
-            
+            //"Senão", caso email mão tenha sido alterado continua com processo de e inserir.
+
+            // Telefone::find("cliente_id = '$id'")->delete();
             /*foreach ($dados['telefones'] as $numero) {
                 $telefone = new Telefone();
                 $telefone->setClienteId($cliente->getId());
@@ -122,10 +120,9 @@ class ClienteController extends ControllerBase
             $cliente->setEmail($dados['email']);
             $cliente->setDataNascimento($dataNascimento->format('Y-m-d'));
 
-            // Salva as alterações no banco de dados
+           
             $cliente->save();
 
-            // Redireciona para a página inicial
             $this->response->redirect('/');
         }
     }

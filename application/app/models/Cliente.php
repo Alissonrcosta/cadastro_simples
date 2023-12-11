@@ -13,6 +13,7 @@ class Cliente extends Model {
         $this->setSource('clientes');
     }
 
+    //Encapsulamento//
     public function getId() {
         return $this->id;
     }
@@ -47,7 +48,7 @@ class Cliente extends Model {
 
     public function getTelefones()
     {
-        // Supondo que você tenha definido a relação "hasMany" corretamente
+       //obtém uma coleção de telefones associados ao cliente específico,
         // e o modelo Telefone tenha a propriedade "id_cliente" para representar a chave estrangeira.
         $telefones = Telefone::find(
             [
