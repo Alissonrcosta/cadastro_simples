@@ -66,25 +66,20 @@
             </div>
 
             <div class="form-group" id="telefones-container">
-    <label>Telefone(s)</label>
-    <?php
-        echo $this->tag->textField(
-            [
-                "numero[]",
-                "class" => "form-control",
-                "placeholder" => "Digite Telefone Principal",
-                "type" => "number",
-                "required" => true,
-            ]
-        );
-    ?>
-</div>
+                <label>Telefone(s)</label>
+                <?php
+                    echo $this->tag->textField(
+                         [
+                            "numero[]",
+                            "class" => "form-control",
+                            "placeholder" => "Digite Telefone Principal",
+                            "type" => "number",
+                            "required" => true,
+                         ]
+                    );
+                ?>
+            </div>
 <button class="btn btn-primary m-2" type="button" id="adicionar-telefone">Adicionar Outro Telefone</button>
-
-
-           
-
-        
 
             <div class="form-group">
                 <?php
@@ -101,6 +96,7 @@
         </div>
     </div>
 
+    
     <!-- Adicione o link para o JavaScript do Bootstrap e o jQuery (opcional, mas necessário para alguns recursos do Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

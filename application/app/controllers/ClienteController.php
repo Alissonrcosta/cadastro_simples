@@ -16,9 +16,9 @@ class ClienteController extends ControllerBase
 {
     $dados = $this->request->getPost();
     $email = $dados['email'];
-    $numeros = $dados['numero']; // Agora 'numero' é um array
+    $numeros = $dados['numero']; 
 
-    // Verificar se o usuário já está cadastrado
+    //veificar se email já cadastrado se sim erro na tela se n continuia processo
     $consulta = Cliente::find("email = '$email'");
     if (count($consulta) > 0) {
         echo "Usuário já cadastrado";
@@ -40,6 +40,8 @@ class ClienteController extends ControllerBase
             $cliente->setDataNascimento($dataNascimento->format('Y-m-d'));
             $cliente->save();
 
+            //logo após criar o usuário o metodo getId tras o Id do ultimo usuário
+            
             // Salvar os telefones associados ao cliente
             foreach ($numeros as $numero) {
                 $telefone = new Telefone();
